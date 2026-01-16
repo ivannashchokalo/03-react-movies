@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import SearchBar from "../../SearchBar/SearchBar";
+import SearchBar from "../SearchBar/SearchBar";
 import type { Movie } from "../../types/movie";
 import toast, { Toaster } from "react-hot-toast";
 import MovieGrid from "../MovieGrid/MovieGrid";
 import css from "./App.module.css";
-import loaderStyles from "../utils/Loader.module.css";
-import ErrorStyles from "../utils/ErrorMessage.module.css";
 import MovieModal from "../MovieModal/MovieModal";
 import { fetchMovies } from "../../services/movieService";
+import Loader from "../Loader/Loader";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 export default function App() {
   const [query, setQuery] = useState<string>("");
@@ -51,15 +51,9 @@ export default function App() {
     <div className={css.app}>
       <Toaster position="top-center" reverseOrder={false} />
       <SearchBar onSubmit={handleSearch} />
-      {isLoading && (
-        <p className={loaderStyles.text}>Loading movies, please wait...</p>
-      )}
+      {isLoading && <Loader />}
 
-      {isError && (
-        <p className={ErrorStyles.text}>
-          There was an error, please try again...
-        </p>
-      )}
+      {isError && <ErrorMessage />}
       {!isLoading && !isError && movies.length > 0 && (
         <MovieGrid movies={movies} onSelect={handleOpenModal} />
       )}
