@@ -1,12 +1,12 @@
 import axios from "axios";
 import type { Movie } from "../types/movie";
 
-interface MovieResponse {
+interface MoviesResponse {
   results: Movie[];
 }
 
-export async function fetchMovies(query: string) {
-  const response = await axios.get<MovieResponse>(
+export async function fetchMovies(query: string): Promise<Movie[]> {
+  const response = await axios.get<MoviesResponse>(
     `https://api.themoviedb.org/3/search/movie?query=${query}`,
     {
       headers: {
@@ -14,5 +14,6 @@ export async function fetchMovies(query: string) {
       },
     }
   );
+
   return response.data.results;
 }
